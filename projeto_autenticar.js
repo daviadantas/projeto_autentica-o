@@ -28,4 +28,14 @@ async function ReadWorkSheet(){
     return users
 }
 
-   
+async function postData(data = {}) {
+   const response = await fetch("https://apigenerator.dronahq.com/api/V8MQNTHe/data", {
+   method: "POST",
+   headers: {
+        "Content-Type": "application/json",
+   },
+   body: JSON.stringify(data),
+    });
+    return response.json();
+}
+
