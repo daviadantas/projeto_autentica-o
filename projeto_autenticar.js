@@ -1,4 +1,4 @@
-const { GoogleSpreasheet } = require('google-spreadsheet');
+const { GoogleSpreadsheet } = require('google-spreadsheet');
 const credencias = require('./credentials.json');
 const arquivo = require('./arquivo.json');
 const { JWT } =  require('google-auth-library');
@@ -14,7 +14,7 @@ const jwt = new JWT({
 });
 
 async function GetDoc() {
-    const doc = new GoogleSpreasheet(arquivo.id, jwt);
+    const doc = new GoogleSpreadsheet(arquivo.id, jwt);
     await doc.loadInfo();
     return doc;
    };
@@ -28,7 +28,7 @@ async function ReadWorkSheet(){
     return users
 }
 
-async function postData(data = {}) {
+async function AddUser(data = {}) {
    const response = await fetch("https://apigenerator.dronahq.com/api/V8MQNTHe/data", {
    method: "POST",
    headers: {
@@ -39,3 +39,11 @@ async function postData(data = {}) {
     return response.json();
 }
 
+async function TrackData(){
+    let data = await ReadWorkSheet();
+    data.map(async (user) => {
+        let response = await AddUser(user)
+        console.log(response)
+    })
+    return console.log('dados copiados com sucesso')
+}
